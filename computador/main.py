@@ -1,100 +1,82 @@
-# # import serial
-
-
-# # ser = serial.Serial('COM11', 9600)  # Porta e baudrate
-
-# # while True:
-# #     dado = ser.readline().decode().strip()
-# #     print("Recebido:", dado)
-
-# import serial
-# import time
-
-# while True:
-#     try:
-#         ser = serial.Serial('COM17', 9600, timeout=1)
-#         print("Conectado com sucesso!")
-#         break
-#     except serial.SerialException as e:
-#         print("Erro ao abrir porta COM17:", e)
-#         print("Tentando novamente em 2 segundos...")
-#         time.sleep(2)
-
-# while True:
-#     try:
-#         dado = ser.readline().decode().strip()
-#         if dado:
-#             print("Recebido:", dado)
-#     except Exception as e:
-#         print("Erro na leitura:", e)
-#         break
-
-
-# import serial.tools.list_ports
-
-# def encontrar_arduino():
-#     portas = serial.tools.list_ports.comports()
-#     for porta in portas:
-#         if ("Arduino" in porta.description or 
-#             "CH340" in porta.description or 
-#             "USB-SERIAL" in porta.description or
-#             "CP210" in porta.description):
-#             return porta.device
-#     return None
-
-# porta = encontrar_arduino()
-
-# if porta is None:
-#     print("Nenhum Arduino encontrado.")
-# else:
-#     print("Arduino encontrado em:", porta)
-
-
+import os
 import serial
-import serial.tools.list_ports
+import threading
 import time
 
-def encontrar_arduino():
-    portas = serial.tools.list_ports.comports()
+from reconhecer_fala import capturar_e_detectar_lingua, get_whisper_model
 
-    for porta in portas:
-        desc = porta.description.lower()
+porta = "COM6"  # Ajuste conforme necessário
+baud = 9600
 
-        if ("arduino" in desc or
-            "ch340" in desc or
-            "usb-serial" in desc or
-            "cp210" in desc):
-            print(f"Arduino encontrado em: {porta.device}")
-            return porta.device
+# Toggle para decidir se carrega modelo Whisper antes de escutar (reduz latência do primeiro evento)
+PRELOAD_MODELO = os.getenv("PRELOAD_MODELO", "1") == "1"
 
-    return None
+ser = serial.Serial(porta, baud, timeout=1)
+ser.reset_input_buffer()
 
-# Tenta encontrar a porta do Arduino
-porta_arduino = encontrar_arduino()
+if PRELOAD_MODELO:
+    print("Carregando modelo Whisper antes de iniciar loop serial...")
+    _ = get_whisper_model()  # força carregamento
+    print("Modelo carregado. Aguardando evento da porta serial...")
+else:
+    print("Aguardando evento da porta serial (modelo será carregado na 1ª captura)...")
 
-if porta_arduino is None:
-    print("Nenhum Arduino encontrado. Verifique o cabo USB e drivers.")
-    exit()
+# Flag para evitar múltiplos reconhecimentos simultâneos
+_reconhecimento_em_andamento = False
 
-# Tenta conectar
-while True:
+def _thread_reconhecimento():
+    global _reconhecimento_em_andamento
     try:
-        ser = serial.Serial(porta_arduino, 9600, timeout=1)
-        print(f"Conectado com sucesso à porta {porta_arduino}!")
-        break
-    except serial.SerialException as e:
-        print("Erro ao abrir porta:", e)
-        print("Tentando novamente em 2 segundos...")
-        time.sleep(2)
-
-# Loop de leitura
-print("Lendo dados do Arduino...\n")
-
-while True:
-    try:
-        dado = ser.readline().decode(errors="ignore").strip()
-        if dado:
-            print("Recebido:", dado)
+        print("Iniciando captura e detecção de língua (≈10s)...")
+        # Usa valores padrão configurados em reconhecer_fala.py (10s, 16kHz)
+        lingua, confianca = capturar_e_detectar_lingua()
+        if lingua:
+            print(f"Língua detectada: {lingua} (confiança ~{confianca})")
+            try:
+                ser.write(f"lingua:{lingua}\n".encode())
+            except Exception as e:
+                print(f"Falha ao enviar resultado pela serial: {e}")
+        else:
+            print("Não foi possível detectar a língua no áudio.")
     except Exception as e:
-        print("Erro na leitura:", e)
-        break
+        print(f"Erro durante reconhecimento: {e}")
+    finally:
+        _reconhecimento_em_andamento = False
+
+def iniciar_reconhecimento_assincrono():
+    global _reconhecimento_em_andamento
+    if _reconhecimento_em_andamento:
+        print("Reconhecimento já em andamento. Ignorando novo evento.")
+        return
+    _reconhecimento_em_andamento = True
+    t = threading.Thread(target=_thread_reconhecimento, daemon=True)
+    t.start()
+
+def loop_serial():
+    while True:
+        try:
+            linha = ser.readline().decode(errors="ignore").strip()
+        except Exception as e:
+            print(f"Erro lendo da serial: {e}")
+            time.sleep(0.5)
+            continue
+
+        if not linha:
+            continue
+
+        print("Recebido:", linha)
+
+        if linha.lower() == "evento":
+            print("Evento recebido: iniciando reconhecimento de fala.")
+            iniciar_reconhecimento_assincrono()
+
+if __name__ == "__main__":
+    try:
+        loop_serial()
+    except KeyboardInterrupt:
+        print("Encerrando...")
+    finally:
+        try:
+            ser.close()
+        except Exception:
+            pass

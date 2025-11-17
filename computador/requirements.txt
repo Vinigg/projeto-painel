@@ -1,1 +1,4 @@
 pyserial==3.5
+PyAudio==0.2.14
+numpy==1.26.4
+openai-whisper
