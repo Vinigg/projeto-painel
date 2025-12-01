@@ -19,6 +19,10 @@ class ControladorExibicao:
         self.tempo_inicio_exibicao = None
         self.lingua_atual = None
         
+        # Imagem default
+        self.imagem_default = None
+        self.dimensoes_default = None
+        
         # Estatísticas
         self.estatisticas = {
             'total_exibicoes': 0,
@@ -28,13 +32,17 @@ class ControladorExibicao:
         }
         
         print("✅ Controlador de exibição inicializado")
+        
+        # Carregar e exibir imagem default
+        self.carregar_imagem_default()
+        self.exibir_default()
     
     def carregar_configuracoes(self, config_path):
         """Carrega configurações do arquivo JSON"""
         config_padrao = {
             "largura_tela": 800,
             "altura_tela": 600,
-            "pasta_imagens": "imagens",
+            "pasta_imagens": "images",
             "tempo_exibicao": 30,
             "cor_fundo": [0, 0, 0],
             "tela_cheia": False,
@@ -87,6 +95,68 @@ class ControladorExibicao:
         except Exception as e:
             print(f"❌ Erro ao inicializar Pygame: {e}")
             sys.exit(1)
+    
+    def carregar_imagem_default(self):
+        """Carrega a imagem default que será exibida quando não houver propaganda"""
+        tentativas = [
+            'default.jpeg',
+            'default.jpg',
+            'default.png',
+            self.config['imagem_default']
+        ]
+        
+        for nome_arquivo in tentativas:
+            caminho_imagem = os.path.join(self.config['pasta_imagens'], nome_arquivo)
+            
+            if os.path.exists(caminho_imagem):
+                try:
+                    imagem = pygame.image.load(caminho_imagem)
+                    print(f"✅ Imagem default carregada: {caminho_imagem}")
+                    self.imagem_default, self.dimensoes_default = self.redimensionar_imagem(imagem)
+                    return
+                except Exception as e:
+                    print(f"❌ Erro ao carregar {caminho_imagem}: {e}")
+                    continue
+        
+        # Se não encontrou imagem default, criar uma
+        print("⚠️ Nenhuma imagem default encontrada, criando tela preta")
+        self.imagem_default, self.dimensoes_default = self.criar_tela_default()
+    
+    def criar_tela_default(self):
+        """Cria uma tela default simples quando não há imagem"""
+        largura, altura = self.config['largura_tela'], self.config['altura_tela']
+        superficie = pygame.Surface((largura, altura))
+        superficie.fill(self.config['cor_fundo'])
+        
+        # Adicionar texto informativo
+        texto = "Sistema Pronto - Aguardando Detecção"
+        texto_surface = self.fonte.render(texto, True, (100, 100, 100))
+        texto_rect = texto_surface.get_rect(center=(largura//2, altura//2))
+        superficie.blit(texto_surface, texto_rect)
+        
+        return superficie, (largura, altura)
+    
+    def exibir_default(self):
+        """Exibe a imagem default na tela"""
+        if not self.imagem_default:
+            return
+        
+        # Limpar estado
+        self.tela_ativa = False
+        self.imagem_atual = None
+        self.lingua_atual = None
+        self.tempo_inicio_exibicao = None
+        
+        # Limpar tela
+        self.tela.fill(self.config['cor_fundo'])
+        
+        # Centralizar e exibir imagem default
+        x = (self.config['largura_tela'] - self.dimensoes_default[0]) // 2
+        y = (self.config['altura_tela'] - self.dimensoes_default[1]) // 2
+        self.tela.blit(self.imagem_default, (x, y))
+        
+        pygame.display.flip()
+        print("🏠 Exibindo tela default")
     
     def carregar_imagem(self, lingua):
         """
@@ -284,17 +354,9 @@ class ControladorExibicao:
         return True
     
     def encerrar_exibicao(self):
-        """Encerra a exibição atual e limpa a tela"""
-        self.tela_ativa = False
-        self.imagem_atual = None
-        self.lingua_atual = None
-        self.tempo_inicio_exibicao = None
-        
-        # Limpar tela
-        self.tela.fill(self.config['cor_fundo'])
-        pygame.display.flip()
-        
-        print("🔄 Tela limpa - Pronta para próxima exibição")
+        """Encerra a exibição atual e retorna para a tela default"""
+        print("🔄 Encerrando propaganda - Retornando para tela default")
+        self.exibir_default()
     
     def processar_eventos(self):
         """Processa eventos do Pygame (teclado, mouse, etc.)"""

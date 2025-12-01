@@ -6,7 +6,7 @@
     "cor_fundo": [0, 0, 0],
     "tela_cheia": false,
     "linguas_suportadas": ["pt", "en", "es", "fr", "de", "it"],
-    "imagem_default": "default.jpg",
+    "imagem_default": "default.jpeg",
     "imagem_erro": "erro.jpg",
     "log_estatisticas": true,
     "mostrar_info": true
