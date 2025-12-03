@@ -9,7 +9,7 @@ from controlar_exibicao import ControladorExibicao
 # Inicializar controlador de exibição
 controlador_exibicao = ControladorExibicao()
 
-porta = "COM7"  # Ajuste conforme necessário
+porta = "COM6"  # Ajuste conforme necessário
 baud = 9600
 
 # Toggle para decidir se carrega modelo Whisper antes de escutar (reduz latência do primeiro evento)

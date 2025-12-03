@@ -1,9 +1,6 @@
 {
-    "total_exibicoes": 2,
-    "exibicoes_por_lingua": {
-        "bg": 1,
-        "pt": 1
-    },
-    "ultima_lingua": "pt",
+    "total_exibicoes": 0,
+    "exibicoes_por_lingua": {},
+    "ultima_lingua": null,
     "tempo_total_exibicao": 0
 }
