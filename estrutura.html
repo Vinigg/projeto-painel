@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camaleão Multilíngue</title>
+   <link rel="shortcut icon" href="./imagens/icone1.ico">
+    <link href="./css/estilo.css" rel="stylesheet"/>
+    <meta nome="keywords" content="Camaleão Multilíngue, Tradução Propaganda, Propaganda Traduzida, Propaganda Traduzida, Propaganda com tradução">
+    <style>
+            /* --- Variáveis de Estilo (Consistência com o anterior) --- */
+        :root {
+            --bg-color: #f0f4f8;
+            --card-bg: #ffffff;
+            --accent-color: #63b3ed;
+            --accent-hover: #3182ce;
+            --text-color: #4a5568;
+            --text-light: #718096;
+            --border-color: #e2e8f0;
+            --code-bg: #2d3748; /* Fundo escuro para o bloco de código */
+            --code-text: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        /* --- Header (Igual ao anterior) --- */
+        .main-header {
+            background-color: var(--card-bg);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            padding: 10px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-container img { height: 50px; width: auto; }
+
+        .nav-menu { display: flex; gap: 20px; }
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 600;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .nav-menu a:hover { color: var(--accent-hover); background-color: #ebf8ff; }
+
+        /* --- Container Principal --- */
+        .content-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* --- Cartões de Seção --- */
+        .section-card {
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            color: var(--accent-color);
+            border-bottom: 2px solid var(--bg-color);
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        /* --- Estilo Tabela (Item 5) --- */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        th { color: var(--accent-hover); font-weight: 600; }
+        tr:hover { background-color: #fafbfc; }
+
+        /* --- Estilo Lista de Apps (Item 6) --- */
+        .app-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .app-item {
+            background: var(--bg-color);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-color);
+        }
+        .app-item strong { display: block; color: var(--text-color); }
+        .app-item span { font-size: 0.9em; color: var(--text-light); }
+
+        /* --- Estilo Passo a Passo (Item 7) --- */
+        .step {
+            margin-bottom: 30px;
+            padding-left: 20px;
+            border-left: 3px dashed var(--accent-color);
+        }
+        .step-header {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            color: var(--accent-hover);
+        }
+        .step-content {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .step-img {
+            max-width: 100%;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        @media(min-width: 600px) {
+            .step-content { flex-direction: row; align-items: flex-start; }
+            .step-img { max-width: 40%; }
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: background-color 0.3s ease;
+        }
+    </style>
+
+</head>
+<body>  
+    <header class="main-header">
+        <div class="logo-container">
+            <img src="./imagens/logolateral2.png" alt="Logo Camaleão Multilíngue">
+        </div>
+        
+        <nav class="nav-menu">
+            <a href="/index.html">Home</a>
+            <a href="/equipe.html">Equipe</a>
+            <a href="/estrutura.html">Estrutura</a>
+        </nav>
+    </header>
+
+    <div class="content-container">
+        
+        <section class="section-card">
+            <h2>Componentes e Suprimentos</h2>
+            <p>Listagem detalhada de todos os materiais utilizados no projeto.</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Componente</th>
+                        <th>Descrição Detalhada</th>
+                        <th>Quantidade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Arduino Uno R3</td>
+                        <td>Microcontrolado principal com cabo USB</td>
+                        <td style="text-align: center;">1</td>
+                    </tr>
+                    <tr>
+                        <td>Sensor Ultrassônico</td>
+                        <td>HC-SR04 para medição de distância</td>
+                        <td style="text-align: center;">1</td>
+                    </tr>
+                    <tr>
+                        <td>Resistores</td>
+                        <td>Conjunto de resistores de 1000Ω (marrom-preto-vermelho)</td>
+                        <td style="text-align: center;">2</td>
+                    </tr>
+
+                    <tr>
+                        <td>Protoboard</td>
+                        <td><Main>Matriz de contato</Main></td>
+                        <td style="text-align: center;">1</td>
+                    </tr>
+
+                    <tr>
+                        <td>jumpers</td>
+                        <td><Main>Cabo macho-macho</Main></td>
+                        <td style="text-align: center;">6</td>
+                    </tr>
+
+                    <tr>
+                        <td>Computador</td>
+                        <td>Exibição das propagandas</td>
+                        <td style="text-align: center;">1</td>
+                    </tr>
+
+                    <tr>
+                        <td>LEDS</td>
+                        <td>Emissão de luz para melhor sinalização(1 verde, 1 vermelho)</td>
+                        <td style="text-align: center;">2</td>
+                    </tr>
+
+                    <tr>
+                        <td>Papelão</td>
+                        <td>Ultilizado para estrutura física</td>
+                        <td style="text-align: center;">n/a</td>
+                    </tr>
+
+                    <tr>
+                        <td>Cola</td>
+                        <td>Ultilizado para fixação dos elementos</td>
+                        <td style="text-align: center;">n/a</td>
+                    </tr>
+
+                    <tr>
+                        <td>Papel ofício</td>
+                        <td>Revestimento da estrutura física</td>
+                        <td style="text-align: center;">n/a</td>
+                    </tr>
+
+                    </tbody>
+            </table>
+        </section>
+
+        <section class="section-card">
+            <h2>Aplicativos e Plataforma</h2>
+            <p>Ferramentas utilizadas no desenvolvimento.</p>
+            
+            <ul class="app-list">
+                <li class="app-item">
+                    <strong>Arduino IDE</strong>
+                    <span>Versão: 2.1.0</span>
+                </li>
+                <li class="app-item">
+                    <strong>Tinkercard</strong>
+                    <span>Versão: Web</span>
+                </li>
+                <li class="app-item">
+                    <strong>Visual Studio Code</strong>
+                    <span>Versão: 1.78</span>
+                </li>
+            </ul>
+        </section>
+
+        <section class="section-card">
+            <h2>Montagem: Passo a Passo</h2>
+            
+            <div class="step">
+                <div class="step-header">Passo 1: Preparação da Protoboard</div>
+                <div class="step-content">
+                    <p>
+                         <b>Conectar o GND da Protoboard:</b><br>
+                         Insira um jumper conectando o pino GND do Arduino a uma trilha lateral (barra negativa) da protoboard (normalmente marcada com linha azul ou sinal "-").
+                    </p>
+                </div>
+                <p>
+                         <b>Conectar o 5V da Protoboard:</b><br>
+                         Insira um jumper conectando o pino 5V do Arduino à outra trilha lateral (barra positiva) da protoboard (normalmente marcada com linha vermelha ou sinal "+").
+                    </p>
+            </div>
+
+            <div class="step">
+                <div class="step-header">Passo 2: Conectar o Sensor Ultrassônico HC-SR04</div>
+                <div class="step-content">
+                    
+                    <p>
+                        <b>Posicionar o sensor:</b><br>
+                        Coloque o sensor HC-SR04 na área central da protoboard, atravessando o canal central, com os 4 pinos em direções opostas.
+                    </p>
+                </div>
+
+                <p>
+                 <b>Fazer as conexões:</b><br>
+                 Pino VCC do sensor → Trilha positiva da protoboard (conectada ao 5V do Arduino) <br>
+                 Pino GND do sensor → Trilha negativa da protoboard (conectada ao GND do Arduino) <br>
+                 Pino TRIG do sensor → Pino 9 do Arduino (use jumper) <br>
+                 Pino ECHO do sensor → Pino 8 do Arduino (use jumper) <br>
+                </p>
+            </div>
+
+            <div class="step">
+                <div class="step-header">Passo 3: Montar os LEDs com Resistores</div>
+                <div class="step-content">
+                    <p>
+                         <b>Para o LED Verde</b><br>
+                         Posicionar o LED:<br>
+                         Insira o LED verde na protoboard, com o cátodo (perna curta) na linha 7, coluna e o ânodo (perna longa) ficará na linha 7, coluna f.
+                         Adicionar o resistor (na linha do ânodo):<br>
+                         O resistor deve estar ligado na mesma linha do ânodo do LED (linha 7), garantindo ligação em série no lado positivo.<br>
+                    </p>
+                </div>
+                <p>
+                 <b>Conecte o resistor de 1000Ω (1kΩ) assim:</b><br>
+                 Uma perna na linha 7, coluna f (mesma coluna do ânodo).<br>
+                 A outra perna na linha 7, coluna a (para receber o jumper do pino do Arduino).<br>
+                 Dessa forma, o resistor fica em série exatamente no caminho do ânodo.
+                </p>
+
+                <p>
+                 <b>Conectar ao Arduino e GND:</b><br>
+                 Insira um jumper conectando o pino 5V do Arduino à outra trilha lateral (barra positiva) da protoboard (normalmente marcada com linha vermelha ou sinal "+").
+                </p>
+
+                <p>
+                 <b>Para o LED Vermelho</b><br>
+                 Repetir o processo em outra linha (com resistor na linha do ânodo)<br>
+                 Use a linha 8 da protoboard para o LED vermelho.
+                 Posicione o ânodo na coluna f e conecte o resistor na mesma linha do ânodo (linha 8), entre a coluna f (ânodo) e a coluna a (jumper vindo do pino 6 do Arduino).
+                </p>
+            </div>
+
+            <div class="step">
+                <div class="step-header">Passo 4: Verificação Final</div>
+                    <div class="step-content">
+                    <table>
+                            <thead>
+                                <tr>
+                                    <th>Componente</th>
+                                    <th>Pino no Arduino</th>
+                                    <th>Pino no Componente</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Sensor</td>
+                                    <td>Pino 9</td>
+                                    <td>TRIG</td>
+                                </tr>
+                                <tr>
+                                    <td>Sensor</td>
+                                    <td>Pino 8</td>
+                                    <td>ECHO</td>
+                                </tr>
+                                <tr>
+                                    <td>Sensor</td>
+                                    <td>5V</td>
+                                    <td>VCC</td>
+                                </tr>
+                                <tr>
+                                    <td>Sensor</td>
+                                    <td>GND</td>
+                                    <td>GND</td>
+                                </tr>
+                                <tr>
+                                    <td>LED Verde</td>
+                                    <td>Pino 7</td>
+                                    <td>Ânodo (via resistor)</td>
+                                </tr>
+                                <tr>
+                                    <td>LED Vermelho</td>
+                                    <td>Pino 6</td>
+                                    <td>Ânodo (via resistor)</td>
+                                </tr>
+                                <tr>
+                                    <td>Ambos LEDs</td>
+                                    <td>GND</td>
+                                    <td>Cátodo</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            
+                </section>
+
+                <section class="section-card">
+                    <h2>Código Fonte</h2>
+                    <p>Abaixo estão os trechos essenciais (snippets) da lógica principal.</p>
+
+                    <div class="code-container">
+
+                    <img src="./imagens/code.png" alt="" style="width: 600px; height: auto; border-radius: 15px;">
+                </section>
+            
+
+                <p style="margin-top: 20px;">
+                Para acessar o código completo e atualizado, visite nosso repositório:
+                </p>
+                
+                <div class="botaoGit">
+                    <a id="botaoDownload" href = 'https://github.com/Vinigg/projeto-painel.git' target="_blank"">Repositório GitHub</a>
+                </div>
+            </div>
+</body>
+</html>

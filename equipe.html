@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camaleão Multilíngue - Equipe</title>
+    <link rel="shortcut icon" href="./imagens/icone1.ico">
+    <link href="./css/estilo.css" rel="stylesheet"/>
+    <meta nome="keywords" content="Camaleão Multilíngue, Tradução Propaganda, Propaganda Traduzida, Propaganda Traduzida, Propaganda com tradução">
+    
+    <style>
+        .team-section {
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            width: center;
+            text-align: center;
+            margin-top: 50px; 
+            
+            
+        }
+
+        .team-section h2 {
+            color: var(--accent-color);
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .member-name {
+            
+            font-weight: normal; 
+            margin-top: 0;       
+            font-size: 1rem;     
+            color: var(--text-color);
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        /* --- Container dos Integrantes --- */
+        .members-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .member-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 140px;
+        }
+
+        /* --- A Bolinha (Foto) --- */
+        .photo-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #e2e8f0;
+            border: 3px solid var(--accent-color);
+            overflow: hidden;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .photo-circle:hover {
+            transform: scale(1.05);
+        }
+
+        .photo-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* --- Inputs de Nome --- */
+        .name {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-color);
+            outline: none;
+            background-color: #fafbfc;
+            transition: border-color 0.3s;
+        }
+
+        /* Responsividade para celular */
+        @media (max-width: 600px) {
+            .main-header {
+                flex-direction: column;
+                padding: 15px;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="main-header">
+        <div class="logo-container">
+            <img src="./imagens/logolateral2.png" alt="Logo Camaleão Multilíngue">
+        </div>
+        
+        <nav class="nav-menu">
+            <a href="/index.html">Home</a>
+            <a href="/equipe.html">Equipe</a>
+            <a href="/estrutura.html">Estrutura</a>
+        </nav>
+    </header>
+
+    <div class="team-section">
+        <h2>Integrantes do Projeto</h2>
+
+        <div class="members-container">
+            
+            <div class="member-card">
+                <div class="photo-circle">
+                    <img src="./imagens/cecilia.jpg" alt="Foto Cecilia">
+                </div>
+                <h3 class="member-name">Cecília Vitória</h3>
+                <a href="https://www.linkedin.com/in/cecília-lopes3107"><i class="descricao">Linkedin</i></a>
+            </div>
+
+            <div class="member-card">
+                <div class="photo-circle">
+                    <img src="./imagens/vitoria.jpg" alt="Foto Vitória">
+                </div>
+                <h3 class="member-name">Vitória Gabrielly</h3>
+                <a href="www.linkedin.com/in/vitória-gabrielly-gomes-da-silva"><i class="descricao">Linkedin</i></a>
+            </div>
+
+            <div class="member-card">
+                <div class="photo-circle">
+                    <img src="./imagens/emily.jpg" alt="Foto Emily">
+                </div>
+                <h3 class="member-name">Emily Marques</h3>
+                <a href=""><i class="descricao">Linkedin</i></a>
+            </div>
+
+            <div class="member-card">
+                <div class="photo-circle">
+                    <img src="./imagens/vinicius.jpg" alt="Foto Membro 4">
+                </div>
+                <h3 class="member-name">VinÍcius Germano</h3>
+                <a href="www.linkedin.com/in/vinicius-g-germano"><i class="descricao">Linkedin</i></a>
+            </div>
+
+            <div class="member-card">
+                <div class="photo-circle">
+                    <img src="./imagens/matheus.jpg" alt="Foto Membro 5">
+                </div>
+                <h3 class="member-name">Matheus Vaz</h3>
+                <a href="https://www.linkedin.com/in/matheus-vaz-777858379"><i class="descricao">Linkedin</i></a>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
