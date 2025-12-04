@@ -1,13 +1,3 @@
-/*******************************************************************************
-*
-*    I15 - Usando sensor ultrassônico sem biblioteca
-*    Autor: Angelo Luis Ferreira
-*    28/02/2022
-*    Atualizado para incluir controle por mensagem serial
-*    http://squids.com.br/arduino
-*
-*******************************************************************************/
-
 int pinGreenLed = 7; // pino do led verde
 int pinRedLed = 6; // pino do led vermelho
 int pinTrig = 9; // pino usado para disparar os pulsos do sensor
