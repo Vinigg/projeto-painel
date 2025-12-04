@@ -32,27 +32,49 @@ def _thread_reconhecimento():
     global _reconhecimento_em_andamento
     try:
         print("Iniciando captura e detecção de língua (≈10s)...")
+        
+        # Exibir tela de captura antes de iniciar gravação
+        controlador_exibicao.exibir_captando()
+        
         # Usa valores padrão configurados em reconhecer_fala.py (10s, 16kHz)
         lingua, confianca = capturar_e_detectar_lingua()
         if lingua:
             print(f"Língua detectada: {lingua} (confiança ~{confianca})")
             
             # Exibir propaganda no controlador de exibição
-            sucesso = controlador_exibicao.exibir_imagem_lingua(lingua)
+            try:
+                sucesso = controlador_exibicao.exibir_imagem_lingua(lingua)
+            except Exception as e:
+                sucesso = False
+                print(f"Erro ao exibir propaganda: {e}")
             if sucesso:
                 print(f"✅ Propaganda iniciada para idioma: {lingua}")
+                # Enviar resultado pela serial
+                try:
+                    ser.write(f"lingua:{lingua}\n".encode())
+                except Exception as e:
+                    print(f"Falha ao enviar resultado pela serial: {e}")
             else:
                 print(f"⚠️ Não foi possível iniciar propaganda para: {lingua}")
-            
-            # Enviar resultado pela serial
-            try:
-                ser.write(f"lingua:{lingua}\n".encode())
-            except Exception as e:
-                print(f"Falha ao enviar resultado pela serial: {e}")
+                # Enviar erro pela serial
+                try:
+                    ser.write(b"erro\n")
+                except Exception as e:
+                    print(f"Falha ao enviar erro pela serial: {e}")
         else:
             print("Não foi possível detectar a língua no áudio.")
+            # Enviar erro pela serial
+            try:
+                ser.write(b"erro\n")
+            except Exception as e:
+                print(f"Falha ao enviar erro pela serial: {e}")
     except Exception as e:
         print(f"Erro durante reconhecimento: {e}")
+        # Enviar erro pela serial
+        try:
+            ser.write(b"erro\n")
+        except Exception as ex:
+            print(f"Falha ao enviar erro pela serial: {ex}")
     finally:
         _reconhecimento_em_andamento = False
 

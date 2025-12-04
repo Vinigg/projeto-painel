@@ -22,6 +22,7 @@ class ControladorExibicao:
         # Imagem default
         self.imagem_default = None
         self.dimensoes_default = None
+        self._ultima_foi_fallback = False
         
         # Estatísticas
         self.estatisticas = {
@@ -158,6 +159,62 @@ class ControladorExibicao:
         pygame.display.flip()
         print("🏠 Exibindo tela default")
     
+    def exibir_captando(self):
+        """Exibe a imagem 'captando' durante a gravação de áudio"""
+        print("🎙️ Exibindo tela de captura...")
+        
+        # Tentar carregar imagem específica de captura
+        tentativas = [
+            'captando.jpeg',
+            'captando.jpg',
+            'captando.png',
+            'recording.jpg'
+        ]
+        
+        imagem_captando = None
+        for nome_arquivo in tentativas:
+            caminho_imagem = os.path.join(self.config['pasta_imagens'], nome_arquivo)
+            if os.path.exists(caminho_imagem):
+                try:
+                    imagem = pygame.image.load(caminho_imagem)
+                    imagem_captando, dimensoes = self.redimensionar_imagem(imagem)
+                    print(f"✅ Imagem de captura carregada: {caminho_imagem}")
+                    break
+                except Exception as e:
+                    print(f"❌ Erro ao carregar {caminho_imagem}: {e}")
+                    continue
+        
+        # Se não encontrou imagem, criar uma com texto
+        if imagem_captando is None:
+            largura, altura = self.config['largura_tela'], self.config['altura_tela']
+            imagem_captando = pygame.Surface((largura, altura))
+            imagem_captando.fill(self.config['cor_fundo'])
+            
+            # Adicionar texto informativo
+            textos = [
+                "🎤 Gravando Áudio...",
+                "Por favor, fale seu idioma"
+            ]
+            
+            fonte_grande = pygame.font.Font(None, 72)
+            fonte_media = pygame.font.Font(None, 48)
+            
+            for i, texto in enumerate(textos):
+                fonte = fonte_grande if i == 0 else fonte_media
+                texto_surface = fonte.render(texto, True, (255, 255, 255))
+                texto_rect = texto_surface.get_rect(center=(largura//2, altura//2 - 50 + i*80))
+                imagem_captando.blit(texto_surface, texto_rect)
+            
+            dimensoes = (largura, altura)
+            print("📝 Imagem de captura criada com texto")
+        
+        # Limpar tela e exibir
+        self.tela.fill(self.config['cor_fundo'])
+        x = (self.config['largura_tela'] - dimensoes[0]) // 2
+        y = (self.config['altura_tela'] - dimensoes[1]) // 2
+        self.tela.blit(imagem_captando, (x, y))
+        pygame.display.flip()
+    
     def carregar_imagem(self, lingua):
         """
         Carrega a imagem correspondente à língua
@@ -181,6 +238,7 @@ class ControladorExibicao:
             self.config['imagem_default']
         ]
         
+        self._ultima_foi_fallback = False
         for nome_arquivo in tentativas:
             caminho_imagem = os.path.join(self.config['pasta_imagens'], nome_arquivo)
             
@@ -195,6 +253,7 @@ class ControladorExibicao:
         
         # Se nenhuma imagem foi encontrada
         print(f"❌ Nenhuma imagem encontrada para a língua: {lingua}")
+        self._ultima_foi_fallback = True
         return self.criar_imagem_fallback(lingua)
     
     def redimensionar_imagem(self, imagem):
@@ -276,7 +335,8 @@ class ControladorExibicao:
         # Exibir imagem
         self.atualizar_tela()
         
-        return True
+        # Retorna False se foi necessário usar fallback (tratado como erro pelo orquestrador)
+        return not self._ultima_foi_fallback
     
     def atualizar_tela(self):
         """Atualiza o conteúdo da tela"""
